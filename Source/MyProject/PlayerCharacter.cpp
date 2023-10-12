@@ -44,7 +44,6 @@ void APlayerCharacter::LookAtCursor()
 	FCollisionQueryParams CollisionParameters;
 	if (GetWorld()->LineTraceSingleByObjectType(intersection, mouseLocation, (mouseDirection * 10000) + mouseLocation, ECC_WorldStatic, CollisionParameters))
 	{
-		//bool hitSomething = playerController->ActorLineTraceSingle(intersection, mouseLocation, (mouseDirection * 10000) + mouseLocation, ECC_Actor, CollisionParameters);
 		if (intersection.GetActor())
 		{
 			FRotator currentCharacterRotation = this->GetActorRotation();
@@ -54,4 +53,3 @@ void APlayerCharacter::LookAtCursor()
 		}
 	}
 }
-
