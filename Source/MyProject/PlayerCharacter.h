@@ -23,6 +23,12 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
+	bool hasGun;
+
+	UFUNCTION(BlueprintCallable, Category = "Character")
+	void CheckInteraction(AActor* target);
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -32,5 +38,12 @@ public:
 
 private:
 	void LookAtCursor();
+	void AddAmmo(int ammoToAdd);
+	void Shoot();
+	void Reload();
+
+	int maxAmmo = 8;
+	int currentAmmo = 5;
+	int totalAmmo = 0;
 
 };

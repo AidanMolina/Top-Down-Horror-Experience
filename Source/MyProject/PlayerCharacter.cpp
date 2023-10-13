@@ -16,7 +16,7 @@ APlayerCharacter::APlayerCharacter()
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 }
 
 // Called every frame
@@ -31,6 +31,9 @@ void APlayerCharacter::Tick(float DeltaTime)
 void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	PlayerInputComponent->BindAction("Shoot", IE_Pressed, this, &APlayerCharacter::Shoot);
+	PlayerInputComponent->BindAction("Reload", IE_Pressed, this, &APlayerCharacter::Reload);
 
 }
 
@@ -51,5 +54,68 @@ void APlayerCharacter::LookAtCursor()
 			FRotator newRotation = FRotator(currentCharacterRotation.Pitch, targetRotation.Yaw, currentCharacterRotation.Roll);
 			this->SetActorRotation(newRotation);
 		}
+	}
+}
+
+void APlayerCharacter::CheckInteraction(AActor* target)
+{
+	TArray<FName> tags = target->Tags;
+
+	if (target->ActorHasTag("Gun"))
+	{
+		hasGun = true;
+	}
+	else if (target->ActorHasTag("Ammo"))
+	{
+		AddAmmo(5);
+	}
+}
+
+void APlayerCharacter::AddAmmo(int ammoToAdd)
+{
+	totalAmmo += ammoToAdd;
+}
+
+void APlayerCharacter::Shoot()
+{
+	if (hasGun)
+	{
+		if (currentAmmo > 0)
+		{
+			currentAmmo -= 1;
+
+			FVector directionToShoot = GetActorForwardVector();
+			FVector start = GetActorLocation();
+			FVector end = start + (directionToShoot * 1000);
+
+			FHitResult enemy;
+			FCollisionQueryParams CollisionParameters;
+			CollisionParameters.AddIgnoredActor(this);
+
+			if (GetWorld()->LineTraceSingleByChannel(enemy, start, end, ECC_Pawn, CollisionParameters))
+			{
+				DrawDebugLine(GetWorld(), start, end, FColor::Red, false, 2.0f, 0.0f, 10.0f);
+			}
+		}
+		else
+		{
+			//Play click sound to signify no ammo
+		}
+
+	}
+}
+
+void APlayerCharacter::Reload()
+{
+	if (totalAmmo >= maxAmmo)
+	{
+		int ammoToAdd = maxAmmo - currentAmmo;
+		totalAmmo -= ammoToAdd;
+		currentAmmo += ammoToAdd;
+	}
+	else
+	{
+		currentAmmo += totalAmmo;
+		totalAmmo = 0;
 	}
 }
