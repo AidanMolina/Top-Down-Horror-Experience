@@ -3,6 +3,7 @@
 
 #include "PlayerCharacter.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "PickUpInterface.h"
 
 // Sets default values
 APlayerCharacter::APlayerCharacter()
@@ -59,16 +60,22 @@ void APlayerCharacter::LookAtCursor()
 
 void APlayerCharacter::CheckInteraction(AActor* target)
 {
-	TArray<FName> tags = target->Tags;
+	if (target->GetClass()->ImplementsInterface(UPickUpInterface::StaticClass()))
+	{
+		IPickUpInterface* hello = Cast<IPickUpInterface>(target);
 
-	if (target->ActorHasTag("Gun"))
-	{
-		hasGun = true;
+		if (target->ActorHasTag("Gun"))
+		{
+			hasGun = true;
+			Destroy(target);
+		}
+		else if (target->ActorHasTag("Ammo"))
+		{
+			AddAmmo(hello->Execute_Interact(target));
+			Destroy(target);
+		}
 	}
-	else if (target->ActorHasTag("Ammo"))
-	{
-		AddAmmo(5);
-	}
+
 }
 
 void APlayerCharacter::AddAmmo(int ammoToAdd)
