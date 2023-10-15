@@ -62,17 +62,21 @@ void APlayerCharacter::CheckInteraction(AActor* target)
 {
 	if (target->GetClass()->ImplementsInterface(UPickUpInterface::StaticClass()))
 	{
-		IPickUpInterface* hello = Cast<IPickUpInterface>(target);
+		IPickUpInterface* interaction = Cast<IPickUpInterface>(target);
 
 		if (target->ActorHasTag("Gun"))
 		{
 			hasGun = true;
-			Destroy(target);
+			
 		}
 		else if (target->ActorHasTag("Ammo"))
 		{
-			AddAmmo(hello->Execute_Interact(target));
-			Destroy(target);
+			AddAmmo(interaction->Execute_PickUpAmmo(target));
+			
+		}
+		else if (target->ActorHasTag("Message"))
+		{
+			DisplayMessage(interaction->Execute_PickUpMessage(target));
 		}
 	}
 
@@ -125,4 +129,15 @@ void APlayerCharacter::Reload()
 		currentAmmo += totalAmmo;
 		totalAmmo = 0;
 	}
+}
+
+void APlayerCharacter::DisplayMessage(FText message)
+{
+	// Create a new FCanvasTextItem instance to contain the text.
+	//FCanvasTextItem TextItem(FVector2D::ZeroVector, TestHUDText, BigFont, FLinearColor::Black);
+	// Add the text into the FCanvasTextItem.
+	//TextItem.Text = FText::Format(LOCTEXT("ExampleFText", "You currently have {0} health left."), CurrentHealth);
+	// Draw the text to the screen with FCanvas::DrawItem.
+	//Canvas->DrawItem(TextItem, 10.0f, 10.0f);
+	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, message.ToString());
 }

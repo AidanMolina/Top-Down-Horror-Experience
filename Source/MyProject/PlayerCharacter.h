@@ -42,6 +42,8 @@ private:
 	void Shoot();
 	void Reload();
 
+	void DisplayMessage(FText message);
+
 	int maxAmmo = 8;
 	int currentAmmo = 5;
 	int totalAmmo = 0;

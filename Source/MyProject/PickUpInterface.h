@@ -23,5 +23,11 @@ class MYPROJECT_API IPickUpInterface
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Interact")
-	int Interact();
+	int PickUpAmmo();
+
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Interact")
+	FText PickUpMessage();
+
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "Interact")
+	void PickUpToInventory();
 };
