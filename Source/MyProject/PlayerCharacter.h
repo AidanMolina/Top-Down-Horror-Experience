@@ -26,6 +26,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
 	bool hasGun;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	class UInventoryComponent* Inventory;
+
 	UFUNCTION(BlueprintCallable, Category = "Character")
 	void CheckInteraction(AActor* target);
 
@@ -36,9 +39,10 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	void AddAmmo(int ammoToAdd);
+
 private:
 	void LookAtCursor();
-	void AddAmmo(int ammoToAdd);
 	void Shoot();
 	void Reload();
 

@@ -4,6 +4,8 @@
 #include "PlayerCharacter.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "PickUpInterface.h"
+#include "InteractableObjects.h"
+#include "InventoryComponent.h"
 
 // Sets default values
 APlayerCharacter::APlayerCharacter()
@@ -11,6 +13,7 @@ APlayerCharacter::APlayerCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	Inventory = CreateDefaultSubobject<UInventoryComponent>("Inventory");
 }
 
 // Called when the game starts or when spawned
