@@ -19,15 +19,15 @@ public:
 	// Sets default values for this character's properties
 	APlayerCharacter();
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	class UInventoryComponent* Inventory;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
 	bool hasGun;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class UInventoryComponent* Inventory;
 
 	UFUNCTION(BlueprintCallable, Category = "Character")
 	void CheckInteraction(AActor* target);
@@ -40,6 +40,9 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	void AddAmmo(int ammoToAdd);
+
+	UFUNCTION(BlueprintCallable, Category = "Items")
+	void UseItem(class AInteractableObjects* Item);
 
 private:
 	void LookAtCursor();

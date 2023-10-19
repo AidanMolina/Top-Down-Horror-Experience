@@ -33,7 +33,7 @@ public:
 	UPROPERTY(Transient)
 	class UWorld* World;
 
-	virtual void Use(class APlayerCharacter* Character) PURE_VIRTUAL(UInteractableObject, );
+	virtual void Use(class APlayerCharacter* Character);
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnUse(class APlayerCharacter* Character);

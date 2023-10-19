@@ -90,6 +90,15 @@ void APlayerCharacter::AddAmmo(int ammoToAdd)
 	totalAmmo += ammoToAdd;
 }
 
+void APlayerCharacter::UseItem(AInteractableObjects* Item)
+{
+	if (Item)
+	{
+		Item->Use(this);
+		Item->OnUse(this); //Blueprint event
+	}
+}
+
 void APlayerCharacter::Shoot()
 {
 	if (hasGun)
