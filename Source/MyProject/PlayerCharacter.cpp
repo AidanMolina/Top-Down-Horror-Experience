@@ -6,6 +6,7 @@
 #include "PickUpInterface.h"
 #include "InteractableObjects.h"
 #include "InventoryComponent.h"
+#include "Components/SpotLightComponent.h"
 
 // Sets default values
 APlayerCharacter::APlayerCharacter()
@@ -14,6 +15,12 @@ APlayerCharacter::APlayerCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 
 	Inventory = CreateDefaultSubobject<UInventoryComponent>("Inventory");
+
+	Spotlight = CreateDefaultSubobject<USpotLightComponent>(TEXT("Spotlight"));
+	Spotlight->SetupAttachment(GetMesh());
+
+	Spotlight->SetVisibility(false);
+
 }
 
 // Called when the game starts or when spawned

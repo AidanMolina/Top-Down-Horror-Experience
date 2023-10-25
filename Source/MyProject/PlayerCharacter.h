@@ -22,6 +22,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UInventoryComponent* Inventory;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Light")
+	class USpotLightComponent* Spotlight;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
