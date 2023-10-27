@@ -4,19 +4,22 @@
 
 #include "CoreMinimal.h"
 #include "InteractableObjects.h"
-#include "MessageObject.generated.h"
+#include "MessageObjects.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class MYPROJECT_API AMessageObject : public AInteractableObjects
+class MYPROJECT_API AMessageObjects : public AInteractableObjects
 {
 	GENERATED_BODY()
-	
+
 protected:
 
 	virtual void Use(class APlayerCharacter* Character) override;
 
+public:
+	UPROPERTY(BlueprintReadWrite)
+	FText message;
 	
 };
