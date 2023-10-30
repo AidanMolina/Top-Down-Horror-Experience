@@ -19,7 +19,7 @@ protected:
 	virtual void Use(class APlayerCharacter* Character) override;
 
 public:
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (MultiLine = true))
 	FText message;
-	
+
 };
