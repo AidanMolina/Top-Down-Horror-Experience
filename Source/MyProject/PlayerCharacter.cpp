@@ -6,6 +6,7 @@
 #include "PickUpInterface.h"
 #include "InteractableObjects.h"
 #include "InventoryComponent.h"
+#include "EnemyCharacter.h"
 #include "Components/SpotLightComponent.h"
 
 // Sets default values
@@ -81,12 +82,7 @@ void APlayerCharacter::CheckInteraction(AActor* target)
 		}
 		else if (target->ActorHasTag("Ammo"))
 		{
-			AddAmmo(interaction->Execute_PickUpAmmo(target));
-			
-		}
-		else if (target->ActorHasTag("Message"))
-		{
-			DisplayMessage(interaction->Execute_PickUpMessage(target));
+			AddAmmo(interaction->Execute_PickUpAmmo(target));	
 		}
 	}
 
@@ -125,6 +121,10 @@ void APlayerCharacter::Shoot()
 			if (GetWorld()->LineTraceSingleByChannel(enemy, start, end, ECC_Pawn, CollisionParameters))
 			{
 				DrawDebugLine(GetWorld(), start, end, FColor::Red, false, 2.0f, 0.0f, 10.0f);
+				if (AEnemyCharacter* enemyCharacter = Cast<AEnemyCharacter>(enemy.GetActor()))
+				{
+					enemyCharacter->TakeDamage(1);
+				}
 			}
 		}
 		else
@@ -148,15 +148,4 @@ void APlayerCharacter::Reload()
 		currentAmmo += totalAmmo;
 		totalAmmo = 0;
 	}
-}
-
-void APlayerCharacter::DisplayMessage(FText message)
-{
-	// Create a new FCanvasTextItem instance to contain the text.
-	//FCanvasTextItem TextItem(FVector2D::ZeroVector, TestHUDText, BigFont, FLinearColor::Black);
-	// Add the text into the FCanvasTextItem.
-	//TextItem.Text = FText::Format(LOCTEXT("ExampleFText", "You currently have {0} health left."), CurrentHealth);
-	// Draw the text to the screen with FCanvas::DrawItem.
-	//Canvas->DrawItem(TextItem, 10.0f, 10.0f);
-	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, message.ToString());
 }

@@ -25,12 +25,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Light")
 	class USpotLightComponent* Spotlight;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
+	bool hasGun;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
-	bool hasGun;
 
 	UFUNCTION(BlueprintCallable, Category = "Character")
 	void CheckInteraction(AActor* target);
@@ -51,8 +51,6 @@ private:
 	void LookAtCursor();
 	void Shoot();
 	void Reload();
-
-	void DisplayMessage(FText message);
 
 	int maxAmmo = 8;
 	int currentAmmo = 5;
