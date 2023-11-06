@@ -43,6 +43,12 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "UI")
 	FOnHealthUIUpdated OnHealthUIUpdated;
 
+	UPROPERTY(BlueprintReadWrite, Category = "Character")
+	int health = 5;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Character")
+	int maxHealth = 5;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -61,6 +67,12 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Items")
 	void UseItem(class AInteractableObjects* Item);
+
+	UFUNCTION(BlueprintCallable, Category = "Combat")
+	void TakeDamage(int DamageTaken);
+
+	UFUNCTION(BlueprintCallable, Category = "Combat")
+	void HealDamage(int DamageHealed);
 
 private:
 	void LookAtCursor();

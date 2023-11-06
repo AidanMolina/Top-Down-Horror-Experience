@@ -97,6 +97,22 @@ void APlayerCharacter::UseItem(AInteractableObjects* Item)
 	}
 }
 
+void APlayerCharacter::TakeDamage(int DamageTaken)
+{
+	health -= DamageTaken;
+	OnHealthUIUpdated.Broadcast();
+}
+
+void APlayerCharacter::HealDamage(int DamageHealed)
+{
+	health += DamageHealed;
+	if (health > maxHealth)
+	{
+		health = maxHealth;
+	}
+	OnHealthUIUpdated.Broadcast();
+}
+
 void APlayerCharacter::AddAmmo(int ammoToAdd)
 {
 	ammoLeft += ammoToAdd;
