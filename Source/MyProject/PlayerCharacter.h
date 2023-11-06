@@ -10,6 +10,9 @@
 #include "Engine/World.h"
 #include "PlayerCharacter.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAmmoUIUpdated);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnHealthUIUpdated);
+
 UCLASS()
 class MYPROJECT_API APlayerCharacter : public ACharacter
 {
@@ -27,6 +30,18 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
 	bool hasGun;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Character")
+	int currentAmmo = 5;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Character")
+	int ammoLeft = 0;
+
+	UPROPERTY(BlueprintAssignable, Category = "UI")
+	FOnAmmoUIUpdated OnAmmoUIUpdated;
+
+	UPROPERTY(BlueprintAssignable, Category = "UI")
+	FOnHealthUIUpdated OnHealthUIUpdated;
 
 protected:
 	// Called when the game starts or when spawned
@@ -53,7 +68,5 @@ private:
 	void Reload();
 
 	int maxAmmo = 8;
-	int currentAmmo = 5;
-	int totalAmmo = 0;
 
 };

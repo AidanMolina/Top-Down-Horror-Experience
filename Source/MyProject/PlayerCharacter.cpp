@@ -88,11 +88,6 @@ void APlayerCharacter::CheckInteraction(AActor* target)
 
 }
 
-void APlayerCharacter::AddAmmo(int ammoToAdd)
-{
-	totalAmmo += ammoToAdd;
-}
-
 void APlayerCharacter::UseItem(AInteractableObjects* Item)
 {
 	if (Item)
@@ -100,6 +95,12 @@ void APlayerCharacter::UseItem(AInteractableObjects* Item)
 		Item->Use(this);
 		Item->OnUse(this); //Blueprint event
 	}
+}
+
+void APlayerCharacter::AddAmmo(int ammoToAdd)
+{
+	ammoLeft += ammoToAdd;
+	OnAmmoUIUpdated.Broadcast();
 }
 
 void APlayerCharacter::Shoot()
@@ -131,21 +132,28 @@ void APlayerCharacter::Shoot()
 		{
 			//Play click sound to signify no ammo
 		}
-
+		OnAmmoUIUpdated.Broadcast();
 	}
 }
 
 void APlayerCharacter::Reload()
 {
-	if (totalAmmo >= maxAmmo)
+	if (ammoLeft >= maxAmmo)
 	{
 		int ammoToAdd = maxAmmo - currentAmmo;
-		totalAmmo -= ammoToAdd;
+		ammoLeft -= ammoToAdd;
 		currentAmmo += ammoToAdd;
 	}
 	else
 	{
-		currentAmmo += totalAmmo;
-		totalAmmo = 0;
+		currentAmmo += ammoLeft;
+		ammoLeft = 0;
+		if (currentAmmo > maxAmmo)
+		{
+			int ammoToSubtract = currentAmmo - maxAmmo;
+			currentAmmo -= ammoToSubtract;
+			ammoLeft = ammoToSubtract;
+		}
 	}
+	OnAmmoUIUpdated.Broadcast();
 }
