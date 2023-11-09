@@ -16,9 +16,6 @@ public:
 	AInteractableObjects();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item")
-	class UStaticMesh* PickupMesh;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item")
 	class UTexture2D* Thumbnail;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item")
