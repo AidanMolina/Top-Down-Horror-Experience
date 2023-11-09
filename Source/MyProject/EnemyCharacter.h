@@ -4,7 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "PlayerCharacter.h"
 #include "EnemyCharacter.generated.h"
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnDamageTaken);
 
 UCLASS()
 class MYPROJECT_API AEnemyCharacter : public ACharacter
@@ -16,6 +19,11 @@ public:
 	AEnemyCharacter();
 
 	int health;
+
+	float attackCooldown;
+
+	UPROPERTY(BlueprintAssignable, Category = "Combat")
+	FOnDamageTaken OnDamageTaken;
 
 protected:
 	// Called when the game starts or when spawned
@@ -29,4 +37,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	void TakeDamage(int damageToTake);
+
+	UFUNCTION(BlueprintCallable)
+	void Attack();
 };

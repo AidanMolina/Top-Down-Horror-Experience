@@ -2,6 +2,7 @@
 
 
 #include "EnemyCharacter.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 // Sets default values
 AEnemyCharacter::AEnemyCharacter()
@@ -37,5 +38,14 @@ void AEnemyCharacter::TakeDamage(int damageToTake)
 {
 	health -= damageToTake;
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Enemy has taken damage"));
+	if (health <= 0)
+	{
+		Destroy();
+	}
+}
+
+void AEnemyCharacter::Attack()
+{
+	
 }
 
