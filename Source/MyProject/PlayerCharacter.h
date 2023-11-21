@@ -43,7 +43,7 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "UI")
 	FOnHealthUIUpdated OnHealthUIUpdated;
 
-	UPROPERTY(BlueprintReadWrite, Category = "Character")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
 	int health = 5;
 
 	UPROPERTY(BlueprintReadWrite, Category = "Character")

@@ -3,6 +3,7 @@
 
 #include "EnemyCharacter.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "DrawDebugHelpers.h"
 
 // Sets default values
 AEnemyCharacter::AEnemyCharacter()
@@ -10,7 +11,8 @@ AEnemyCharacter::AEnemyCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	health = 10;
+	canAttack = true;
+	attackArea = FCollisionShape::MakeBox(FVector(100, 100, 50));
 }
 
 // Called when the game starts or when spawned
@@ -46,6 +48,30 @@ void AEnemyCharacter::TakeDamage(int damageToTake)
 
 void AEnemyCharacter::Attack()
 {
-	
+	if (canAttack)
+	{
+		canAttack = false;
+
+		FHitResult SweepResult;
+		FCollisionQueryParams CollisionParameters;
+		CollisionParameters.AddIgnoredActor(this);
+
+		if (GetWorld()->SweepSingleByChannel(SweepResult, this->GetActorLocation(), this->GetActorLocation(), FQuat::Identity, ECC_Pawn, attackArea, CollisionParameters))
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, TEXT("Some debug message!"));
+			if (APlayerCharacter* playerCharacter = Cast<APlayerCharacter>(SweepResult.GetActor()))
+			{
+				playerCharacter->TakeDamage(damageToDeal);
+			}
+		}
+
+		GetWorld()->GetTimerManager().SetTimer(MyTimerHandle, this, &AEnemyCharacter::ResetAttack, attackCooldown, false);
+	}
+}
+
+void AEnemyCharacter::ResetAttack()
+{
+	canAttack = true;
+	GetWorld()->GetTimerManager().ClearTimer(MyTimerHandle);
 }
 
