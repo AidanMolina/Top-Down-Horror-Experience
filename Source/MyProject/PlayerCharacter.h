@@ -37,6 +37,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "Character")
 	int ammoLeft = 0;
 
+	UPROPERTY(EditAnywhere, Category = "Character")
+	float fireRate = 0.5f;
+
 	UPROPERTY(BlueprintAssignable, Category = "UI")
 	FOnAmmoUIUpdated OnAmmoUIUpdated;
 
@@ -78,7 +81,12 @@ private:
 	void LookAtCursor();
 	void Shoot();
 	void Reload();
+	void CanFireAgain();
+
+	bool canFire = true;
 
 	int maxAmmo = 8;
+
+	FTimerHandle FireRateTimerHandle;
 
 };

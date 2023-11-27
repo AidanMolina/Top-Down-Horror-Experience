@@ -125,23 +125,29 @@ void APlayerCharacter::Shoot()
 	{
 		if (currentAmmo > 0)
 		{
-			currentAmmo -= 1;
-
-			FVector directionToShoot = GetActorForwardVector();
-			FVector start = GetActorLocation();
-			FVector end = start + (directionToShoot * 1000);
-
-			FHitResult enemy;
-			FCollisionQueryParams CollisionParameters;
-			CollisionParameters.AddIgnoredActor(this);
-
-			if (GetWorld()->LineTraceSingleByChannel(enemy, start, end, ECC_Pawn, CollisionParameters))
+			if (canFire)
 			{
-				DrawDebugLine(GetWorld(), start, end, FColor::Red, false, 2.0f, 0.0f, 10.0f);
-				if (AEnemyCharacter* enemyCharacter = Cast<AEnemyCharacter>(enemy.GetActor()))
+				currentAmmo -= 1;
+
+				FVector directionToShoot = GetActorForwardVector();
+				FVector start = GetActorLocation();
+				FVector end = start + (directionToShoot * 1000);
+
+				FHitResult enemy;
+				FCollisionQueryParams CollisionParameters;
+				CollisionParameters.AddIgnoredActor(this);
+
+				if (GetWorld()->LineTraceSingleByChannel(enemy, start, end, ECC_Pawn, CollisionParameters))
 				{
-					enemyCharacter->TakeDamage(1);
+					DrawDebugLine(GetWorld(), start, end, FColor::Red, false, 2.0f, 0.0f, 10.0f);
+					if (AEnemyCharacter* enemyCharacter = Cast<AEnemyCharacter>(enemy.GetActor()))
+					{
+						enemyCharacter->TakeDamage(1);
+					}
 				}
+
+				canFire = false;
+				GetWorld()->GetTimerManager().SetTimer(FireRateTimerHandle, this, &APlayerCharacter::CanFireAgain, fireRate, false);
 			}
 		}
 		else
@@ -172,4 +178,10 @@ void APlayerCharacter::Reload()
 		}
 	}
 	OnAmmoUIUpdated.Broadcast();
+}
+
+void APlayerCharacter::CanFireAgain()
+{
+	canFire = true;
+	GetWorld()->GetTimerManager().ClearTimer(FireRateTimerHandle);
 }
