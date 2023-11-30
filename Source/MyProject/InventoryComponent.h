@@ -18,6 +18,8 @@ public:
 	UInventoryComponent();
 
 	bool AddItem(class AInteractableObjects* Item);
+
+	UFUNCTION(BlueprintCallable)
 	bool RemoveItem(class AInteractableObjects* Item);
 
 	UPROPERTY(BlueprintAssignable, Category = "Inventory")

@@ -18,7 +18,7 @@ protected:
 
 	virtual void Use(class APlayerCharacter* Character) override;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	int ammoAmount;
 	
 };
