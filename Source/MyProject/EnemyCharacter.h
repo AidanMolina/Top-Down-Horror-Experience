@@ -8,6 +8,7 @@
 #include "EnemyCharacter.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnDamageTaken);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnDeath);
 
 UCLASS()
 class MYPROJECT_API AEnemyCharacter : public ACharacter
@@ -27,6 +28,9 @@ public:
 
 	bool canAttack;
 
+	UPROPERTY(BlueprintReadWrite, Category = "Combat")
+	bool isDead;
+
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	int damageToDeal;
 
@@ -35,6 +39,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "Combat")
 	FOnDamageTaken OnDamageTaken;
+
+	UPROPERTY(BlueprintAssignable, Category = "Combat")
+	FOnDeath OnDeath;
 
 protected:
 	// Called when the game starts or when spawned

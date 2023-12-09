@@ -12,6 +12,7 @@ AEnemyCharacter::AEnemyCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 
 	canAttack = true;
+	isDead = false;
 	attackArea = FCollisionShape::MakeBox(FVector(100, 100, 50));
 }
 
@@ -42,7 +43,9 @@ void AEnemyCharacter::TakeDamage(int damageToTake)
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Enemy has taken damage"));
 	if (health <= 0)
 	{
-		Destroy();
+		isDead = true;
+		canAttack = false;
+		OnDeath.Broadcast();
 	}
 }
 
