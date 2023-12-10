@@ -6,6 +6,7 @@
 
 void AGunObject::Use(APlayerCharacter* Character)
 {
+	Super::Use(Character);
 	if (Character)
 	{
 		Character->hasGun = true;

@@ -15,13 +15,13 @@ public:
 	// Sets default values for this actor's properties
 	AInteractableObjects();
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
 	class UTexture2D* Thumbnail;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
 	FText ItemName;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item", meta = (MultiLine = true))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item", meta = (MultiLine = true))
 	FText ItemDescription;
 
 	UPROPERTY()

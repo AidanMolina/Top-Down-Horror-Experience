@@ -26,6 +26,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	float attackCooldown;
 
+	UPROPERTY(BlueprintReadOnly, Category = "Combat")
 	bool canAttack;
 
 	UPROPERTY(BlueprintReadWrite, Category = "Combat")

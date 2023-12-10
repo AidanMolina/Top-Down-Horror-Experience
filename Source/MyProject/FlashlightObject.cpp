@@ -7,6 +7,7 @@
 
 void AFlashlightObject::Use(APlayerCharacter* Character)
 {
+	Super::Use(Character);
 	if (Character)
 	{
 		Character->Spotlight->SetVisibility(true);
