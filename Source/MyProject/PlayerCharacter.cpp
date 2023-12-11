@@ -29,6 +29,7 @@ void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	isDead = false;
 }
 
 // Called every frame
@@ -51,20 +52,23 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 void APlayerCharacter::LookAtCursor()
 {
-	FVector mouseLocation, mouseDirection;
-	APlayerController* playerController = (APlayerController*)GetWorld()->GetFirstPlayerController();
-
-	playerController->DeprojectMousePositionToWorld(mouseLocation, mouseDirection);
-	FHitResult intersection;
-	FCollisionQueryParams CollisionParameters;
-	if (GetWorld()->LineTraceSingleByObjectType(intersection, mouseLocation, (mouseDirection * 10000) + mouseLocation, ECC_WorldStatic, CollisionParameters))
+	if (!isDead)
 	{
-		if (intersection.GetActor())
+		FVector mouseLocation, mouseDirection;
+		APlayerController* playerController = (APlayerController*)GetWorld()->GetFirstPlayerController();
+
+		playerController->DeprojectMousePositionToWorld(mouseLocation, mouseDirection);
+		FHitResult intersection;
+		FCollisionQueryParams CollisionParameters;
+		if (GetWorld()->LineTraceSingleByObjectType(intersection, mouseLocation, (mouseDirection * 10000) + mouseLocation, ECC_WorldStatic, CollisionParameters))
 		{
-			FRotator currentCharacterRotation = this->GetActorRotation();
-			FRotator targetRotation = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), intersection.ImpactPoint);
-			FRotator newRotation = FRotator(currentCharacterRotation.Pitch, targetRotation.Yaw, currentCharacterRotation.Roll);
-			this->SetActorRotation(newRotation);
+			if (intersection.GetActor())
+			{
+				FRotator currentCharacterRotation = this->GetActorRotation();
+				FRotator targetRotation = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), intersection.ImpactPoint);
+				FRotator newRotation = FRotator(currentCharacterRotation.Pitch, targetRotation.Yaw, currentCharacterRotation.Roll);
+				this->SetActorRotation(newRotation);
+			}
 		}
 	}
 }
@@ -100,7 +104,16 @@ void APlayerCharacter::UseItem(AInteractableObjects* Item)
 void APlayerCharacter::TakeDamage(int DamageTaken)
 {
 	health -= DamageTaken;
-	OnHealthUIUpdated.Broadcast();
+	if (health <= 0 && !isDead)
+	{
+		isDead = true;
+		OnHealthUIUpdated.Broadcast();
+		OnPlayerDeath.Broadcast();
+	}
+	else
+	{
+		OnHealthUIUpdated.Broadcast();
+	}
 }
 
 void APlayerCharacter::HealDamage(int DamageHealed)
@@ -147,6 +160,7 @@ void APlayerCharacter::Shoot()
 				}
 
 				canFire = false;
+				OnShoot.Broadcast();
 				GetWorld()->GetTimerManager().SetTimer(FireRateTimerHandle, this, &APlayerCharacter::CanFireAgain, fireRate, false);
 			}
 		}
