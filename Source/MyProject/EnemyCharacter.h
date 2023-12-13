@@ -19,11 +19,11 @@ public:
 	// Sets default values for this character's properties
 	AEnemyCharacter();
 
-	UPROPERTY(EditAnywhere, Category = "Combat")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat")
 	int health;
 
 
-	UPROPERTY(EditAnywhere, Category = "Combat")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat")
 	float attackCooldown;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Combat")
@@ -32,7 +32,7 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "Combat")
 	bool isDead;
 
-	UPROPERTY(EditAnywhere, Category = "Combat")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat")
 	int damageToDeal;
 
 	FCollisionShape attackArea;

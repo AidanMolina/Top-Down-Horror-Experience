@@ -61,9 +61,9 @@ void AEnemyCharacter::Attack()
 
 		if (GetWorld()->SweepSingleByChannel(SweepResult, this->GetActorLocation(), this->GetActorLocation(), FQuat::Identity, ECC_Pawn, attackArea, CollisionParameters))
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, TEXT("Some debug message!"));
 			if (APlayerCharacter* playerCharacter = Cast<APlayerCharacter>(SweepResult.GetActor()))
 			{
+				GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, TEXT("Some debug message!"));
 				playerCharacter->TakeDamage(damageToDeal);
 			}
 		}
