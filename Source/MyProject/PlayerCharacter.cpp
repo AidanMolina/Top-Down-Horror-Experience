@@ -134,16 +134,12 @@ void APlayerCharacter::AddAmmo(int ammoToAdd)
 
 void APlayerCharacter::Shoot()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, TEXT("Doesn't have gun!"));
 	if (hasGun)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, TEXT("Has Gun!"));
 		if (currentAmmo > 0)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, TEXT("Ammo > 0!"));
 			if (canFire)
 			{
-				GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, TEXT("Can Fire!"));
 				currentAmmo -= 1;
 
 				FVector directionToShoot = GetActorForwardVector();
@@ -166,10 +162,6 @@ void APlayerCharacter::Shoot()
 				canFire = false;
 				OnShoot.Broadcast();
 				GetWorld()->GetTimerManager().SetTimer(FireRateTimerHandle, this, &APlayerCharacter::CanFireAgain, fireRate, false);
-			}
-			else
-			{
-				GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, TEXT("Can Not Shoot!"));
 			}
 		}
 		else
