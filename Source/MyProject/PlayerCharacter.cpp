@@ -126,7 +126,6 @@ void APlayerCharacter::HealDamage(int DamageHealed)
 		health = maxHealth;
 	}
 	OnHealthUIUpdated.Broadcast();
-	OnPlayerHealDamage.Broadcast();
 }
 
 void APlayerCharacter::AddAmmo(int ammoToAdd)
@@ -195,6 +194,7 @@ void APlayerCharacter::Reload()
 		}
 	}
 	OnAmmoUIUpdated.Broadcast();
+	OnReload.Broadcast();
 }
 
 void APlayerCharacter::CanFireAgain()

@@ -13,7 +13,7 @@
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAmmoUIUpdated);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnHealthUIUpdated);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPlayerTakeDamage);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPlayerHealDamage);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnReload);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPlayerDeath);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnShoot);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnClick);
@@ -55,7 +55,7 @@ public:
 	FOnPlayerTakeDamage OnPlayerTakeDamage;
 
 	UPROPERTY(BlueprintAssignable, Category = "Character")
-	FOnPlayerHealDamage OnPlayerHealDamage;
+	FOnReload OnReload;
 
 	UPROPERTY(BlueprintAssignable, Category = "Character")
 	FOnShoot OnShoot;
