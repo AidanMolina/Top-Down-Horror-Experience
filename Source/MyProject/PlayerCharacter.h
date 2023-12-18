@@ -12,8 +12,11 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAmmoUIUpdated);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnHealthUIUpdated);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPlayerTakeDamage);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPlayerHealDamage);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPlayerDeath);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnShoot);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnClick);
 
 UCLASS()
 class MYPROJECT_API APlayerCharacter : public ACharacter
@@ -49,7 +52,16 @@ public:
 	FOnHealthUIUpdated OnHealthUIUpdated;
 
 	UPROPERTY(BlueprintAssignable, Category = "Character")
+	FOnPlayerTakeDamage OnPlayerTakeDamage;
+
+	UPROPERTY(BlueprintAssignable, Category = "Character")
+	FOnPlayerHealDamage OnPlayerHealDamage;
+
+	UPROPERTY(BlueprintAssignable, Category = "Character")
 	FOnShoot OnShoot;
+
+	UPROPERTY(BlueprintAssignable, Category = "Character")
+	FOnClick OnClick;
 
 	UPROPERTY(BlueprintAssignable, Category = "UI")
 	FOnPlayerDeath OnPlayerDeath;

@@ -108,11 +108,13 @@ void APlayerCharacter::TakeDamage(int DamageTaken)
 	{
 		isDead = true;
 		OnHealthUIUpdated.Broadcast();
+		OnPlayerTakeDamage.Broadcast();
 		OnPlayerDeath.Broadcast();
 	}
 	else
 	{
 		OnHealthUIUpdated.Broadcast();
+		OnPlayerTakeDamage.Broadcast();
 	}
 }
 
@@ -124,6 +126,7 @@ void APlayerCharacter::HealDamage(int DamageHealed)
 		health = maxHealth;
 	}
 	OnHealthUIUpdated.Broadcast();
+	OnPlayerHealDamage.Broadcast();
 }
 
 void APlayerCharacter::AddAmmo(int ammoToAdd)
@@ -141,7 +144,7 @@ void APlayerCharacter::Shoot()
 			if (canFire)
 			{
 				currentAmmo -= 1;
-
+				
 				FVector directionToShoot = GetActorForwardVector();
 				FVector start = GetActorLocation();
 				FVector end = start + (directionToShoot * 1000);
@@ -150,7 +153,7 @@ void APlayerCharacter::Shoot()
 				FCollisionQueryParams CollisionParameters;
 				CollisionParameters.AddIgnoredActor(this);
 
-				if (GetWorld()->LineTraceSingleByChannel(enemy, start, end, ECC_Pawn, CollisionParameters))
+				if (GetWorld()->LineTraceSingleByChannel(enemy, start, end, ECC_WorldDynamic, CollisionParameters))
 				{
 					DrawDebugLine(GetWorld(), start, end, FColor::Red, false, 2.0f, 0.0f, 10.0f);
 					if (AEnemyCharacter* enemyCharacter = Cast<AEnemyCharacter>(enemy.GetActor()))
@@ -166,7 +169,7 @@ void APlayerCharacter::Shoot()
 		}
 		else
 		{
-			//Play click sound to signify no ammo
+			OnClick.Broadcast();
 		}
 		OnAmmoUIUpdated.Broadcast();
 	}
